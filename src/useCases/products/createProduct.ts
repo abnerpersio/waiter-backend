@@ -5,7 +5,7 @@ import { Product } from '../../app/models/Product';
 type Data = {
   name: string;
   description: string;
-  price: string;
+  price: number | string;
   category: string;
   ingredients: string;
 };
@@ -27,7 +27,8 @@ export async function createProduct(req: ProductRequest, res: Response) {
     });
 
     return res.status(201).json(product);
-  } catch {
+  } catch (error) {
+    console.error(error);
     res.sendStatus(500);
   }
 }

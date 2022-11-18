@@ -13,7 +13,8 @@ export async function listProductsByCategory(req: Request<Params>, res: Response
     const products = await Product.find().where('category').equals(categoryId);
 
     return res.json(products);
-  } catch {
+  } catch (error) {
+    console.error(error);
     res.sendStatus(500);
   }
 }
