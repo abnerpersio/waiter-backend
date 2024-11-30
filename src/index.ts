@@ -5,12 +5,11 @@ import './config/env';
 import { connect } from './config/mongo';
 import { corsMiddleware } from './middlewares/cors';
 import { router } from './router';
+import { server, wsServer } from './server';
 
 (async () => {
   const isConnected = await connect();
   if (!isConnected) return;
-
-  const server = express();
 
   server.use(corsMiddleware);
 
@@ -18,5 +17,5 @@ import { router } from './router';
   server.use(express.json());
   server.use(router);
 
-  server.listen(3001, () => console.log('Server is running'));
+  wsServer.listen(3001, () => console.log('Server is running'));
 })();

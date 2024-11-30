@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Order } from '../../app/models/Order';
+import { io } from '../../server';
 
 type Data = {
   table: string;
@@ -33,6 +34,9 @@ export async function createOrder(req: OrderRequest, res: Response) {
         quantity: Number(quantity),
       })),
     });
+
+    const orderDetails = await order.populate('products.product');
+    io.emit('orders@new', orderDetails);
 
     res.status(201).json(order);
   } catch (error) {
