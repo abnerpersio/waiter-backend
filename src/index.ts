@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import './config/env';
 import { connect } from './config/mongo';
+import { corsMiddleware } from './middlewares/cors';
 import { router } from './router';
 
 (async () => {
@@ -10,6 +11,8 @@ import { router } from './router';
   if (!isConnected) return;
 
   const server = express();
+
+  server.use(corsMiddleware);
 
   server.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
   server.use(express.json());
